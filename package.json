@@ -1,0 +1,26 @@
+{
+  "name": "makeithappen",
+  "version": "1.0.0",
+  "description": "to do applicatie",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YusufUsul1903/MakeItHappen.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/YusufUsul1903/MakeItHappen/issues"
+  },
+  "homepage": "https://github.com/YusufUsul1903/MakeItHappen#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "nodemon": "^3.1.14"
+  }
+}
