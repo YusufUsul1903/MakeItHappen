@@ -3,9 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
     <title>Document</title>
 </head>
 <body>
-    
+    <header>
+        <nav>
+            <ul>
+                <li><a href="/">Dashboard</a></li>
+                <li><a href="/log-in">Account</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Make It Happen.</h1>
+        
+        <section id="tasks-section">
+            <h2>Nieuwe Taak Toevoegen</h2>
+            <div class="input-group">
+                <input type="text" id="taskInput" placeholder="Wat ga je doen?">
+                <button id="addTaskBtn">Toevoegen</button>
+            </div>
+
+            <ul id="taskList">
+                <li>
+                    <div class="task-info">
+                        <input type="checkbox">
+                        <span>Website stylen</span>
+                    </div>
+                    <div class="task-actions">
+                        <button class="btn-edit">✏️</button>
+                        <button class="btn-delete">🗑️</button>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section id="categories-section">
+            <h2>Categorieën</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <button style="background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--glass-border);">School</button>
+                <button style="background: rgba(255,255,255,0.05); color: white; border: 1px solid var(--glass-border);">Vrije Tijd</button>
+            </div>
+        </section>
+    </main>
 </body>
 </html>
