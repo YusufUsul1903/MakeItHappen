@@ -1,7 +1,9 @@
-<main>
-    <section id="tasks-section">
+<div class="dashboard-layout">
+    <%- include('../partials/sidebar') %>
+
+    <main class="dashboard-main">
         <%- include('../partials/taskInput') %>
         <%- include('../partials/taskList') %>
         <%- include('../partials/editModal') %>
-    </section>
-</main>
+    </main>
+</div>

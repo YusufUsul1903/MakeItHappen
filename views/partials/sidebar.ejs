@@ -1,0 +1,42 @@
+<aside class="sidebar">
+    <div class="sidebar-section">
+        <span class="sidebar-label">Weergave</span>
+        <ul class="sidebar-nav">
+            <li>
+                <a href="/" class="sidebar-link <%= !activeCategoryId ? 'active' : '' %>">
+                    Alle taken
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="sidebar-section">
+        <span class="sidebar-label">Categorieën</span>
+        <ul class="sidebar-nav" id="categoryList">
+            <% categories.forEach(cat => { %>
+                <li class="category-item">
+                    <a href="/category/<%= cat._id %>"
+                       class="sidebar-link <%= activeCategoryId == cat._id ? 'active' : '' %>">
+                        <span class="cat-dot" style="background:<%= cat.color %>"></span>
+                        <span><%= cat.name %></span>
+                    </a>
+                    <button class="btn-cat-delete" data-id="<%= cat._id %>">✕</button>
+                </li>
+            <% }) %>
+        </ul>
+        <button class="btn-add-category" id="toggleAddCategory">+ Categorie toevoegen</button>
+
+        <div class="add-category-form" id="addCategoryForm" style="display:none;">
+            <input type="text" id="newCategoryName" placeholder="Naam categorie">
+            <div class="cat-color-row">
+                <% ['#3B6D11','#5B6AD1','#C07A20','#B0334A','#2A7E9B','#7B4EA0'].forEach(c => { %>
+                    <button class="color-swatch" style="background:<%= c %>" data-color="<%= c %>"></button>
+                <% }) %>
+            </div>
+            <div class="add-cat-actions">
+                <button class="btn-sm-primary" id="saveCategoryBtn">Opslaan</button>
+                <button class="btn-sm-ghost" id="cancelCategoryBtn">Annuleren</button>
+            </div>
+        </div>
+    </div>
+</aside>
