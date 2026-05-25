@@ -1,0 +1,19 @@
+<div class="modal-overlay" id="editModal" style="display:none;">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h3>Taak bewerken</h3>
+            <button id="closeModal">✕</button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="editTaskId">
+            <div class="form-group">
+                <label for="editTaskTitle">Taak</label>
+                <input type="text" id="editTaskTitle" placeholder="Taaknaam">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-sm-ghost" id="cancelEdit">Annuleren</button>
+            <button class="btn-sm-primary" id="saveEdit">Opslaan</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+<ul id="taskList">
+    <% if (tasks && tasks.length > 0) { %>
+        <% tasks.forEach(task => { %>
+            <li class="<%= task.completed ? 'completed' : '' %>" data-id="<%= task._id %>">
+                <div class="task-info">
+                    <input type="checkbox" <%= task.completed ? 'checked' : '' %>>
+                    <span><%= task.title %></span>
+                </div>
+                <div class="task-actions">
+                    <button class="btn-edit" data-id="<%= task._id %>" data-title="<%= task.title %>">✏️</button>
+                    <button class="btn-delete" data-id="<%= task._id %>">🗑️</button>
+                </div>
+            </li>
+        <% }); %>
+    <% } else { %>
+        <p class="empty-state">Geen taken gevonden. Lekker bezig!</p>
+    <% } %>
+</ul>

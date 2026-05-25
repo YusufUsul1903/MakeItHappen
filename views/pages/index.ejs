@@ -1,28 +1,7 @@
 <main>
     <section id="tasks-section">
-        <h2>Nieuwe Taak Toevoegen</h2>
-        <div class="input-group">
-            <input type="text" id="taskInput" placeholder="Wat ga je doen?">
-            <button id="addTaskBtn">Toevoegen</button>
-        </div>
-
-        <ul id="taskList">
-            <% if (tasks && tasks.length > 0) { %>
-                <% tasks.forEach(task => { %>
-                    <li>
-                        <div class="task-info">
-                            <input type="checkbox" <%= task.completed ? 'checked' : '' %>>
-                            <span><%= task.title %></span>
-                        </div>
-                        <div class="task-actions">
-                            <button class="btn-edit">✏️</button>
-                            <button class="btn-delete">🗑️</button>
-                        </div>
-                    </li>
-                <% }); %>
-            <% } else { %>
-                <p>Geen taken gevonden. Lekker bezig!</p>
-            <% } %>
-        </ul>
+        <%- include('../partials/taskInput') %>
+        <%- include('../partials/taskList') %>
+        <%- include('../partials/editModal') %>
     </section>
 </main>
