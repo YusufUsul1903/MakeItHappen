@@ -1,7 +1,19 @@
 <div class="input-card">
     <div class="input-label">Nieuwe taak</div>
+
     <div class="input-group">
         <input type="text" id="taskInput" placeholder="Wat ga je doen?">
+
+        <select id="taskCategory">
+            <option value="">Geen categorie</option>
+
+            <% categories.forEach(cat => { %>
+                <option value="<%= cat._id %>">
+                    <%= cat.name %>
+                </option>
+            <% }) %>
+        </select>
+
         <button class="btn-add" id="addTaskBtn">Toevoegen</button>
     </div>
 </div>

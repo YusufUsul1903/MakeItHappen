@@ -823,3 +823,46 @@ button[type="submit"]:active,
     .sidebar { display: none; }
     .dashboard-main { padding: 1.5rem 1rem; }
 }
+
+select {
+    height: 40px;
+    padding: 0 12px;
+    border: 0.5px solid var(--gray-200);
+    border-radius: var(--radius-sm);
+    background: var(--gray-50);
+    font-family: var(--font-body);
+    font-size: 0.825rem;
+    color: var(--gray-900);
+    outline: none;
+}
+
+select:focus {
+    border-color: var(--green-600);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(59, 109, 17, 0.1);
+}
+
+.task-category-label {
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    color: var(--gray-400);
+}
+
+.task-info > div {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 600px) {
+    .input-group {
+        flex-direction: column;
+    }
+
+    .input-group select,
+    .btn-add {
+        width: 100%;
+    }
+}

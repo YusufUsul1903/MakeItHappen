@@ -2,8 +2,13 @@
     <%- include('../partials/sidebar') %>
 
     <main class="dashboard-main">
-        <%- include('../partials/taskInput') %>
-        <%- include('../partials/taskList') %>
-        <%- include('../partials/editModal') %>
+        <section id="tasks-section">
+            <h1>Make It <span class="accent">Happen.</span></h1>
+            <p class="page-subtitle">Organiseer je taken per categorie en werk ze stap voor stap af.</p>
+
+            <%- include('../partials/taskInput') %>
+            <%- include('../partials/taskList') %>
+            <%- include('../partials/editModal') %>
+        </section>
     </main>
 </div>

@@ -2,10 +2,10 @@
   "name": "makeithappen",
   "version": "1.0.0",
   "description": "to do applicatie",
-  "main": "app.js",
+  "main": "src/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server/app.js"
+    "dev": "nodemon src/app.js"
   },
   "repository": {
     "type": "git",
