@@ -1,16 +1,17 @@
 import express from 'express';
 import * as taskController from '../controllers/taskController.js';
+import { requireAuth } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.get('/', taskController.getDashboard);
-router.get('/category/:id', taskController.getTasksByCategory);
+router.get('/', requireAuth, taskController.getDashboard);
+router.get('/category/:id', requireAuth, taskController.getTasksByCategory);
 
-router.post('/api/tasks', taskController.createTask);
-router.patch('/api/tasks/:id', taskController.updateTask);
-router.delete('/api/tasks/:id', taskController.deleteTask);
+router.post('/api/tasks', requireAuth, taskController.createTask);
+router.patch('/api/tasks/:id', requireAuth, taskController.updateTask);
+router.delete('/api/tasks/:id', requireAuth, taskController.deleteTask);
 
-router.post('/api/categories', taskController.createCategory);
-router.delete('/api/categories/:id', taskController.deleteCategory);
+router.post('/api/categories', requireAuth, taskController.createCategory);
+router.delete('/api/categories/:id', requireAuth, taskController.deleteCategory);
 
 export default router;

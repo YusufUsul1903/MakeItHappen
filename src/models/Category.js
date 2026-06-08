@@ -10,6 +10,11 @@ const categorySchema = new mongoose.Schema({
     color: {
         type: String,
         default: '#3B6D11'
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 }, { timestamps: true });
 

@@ -3,8 +3,8 @@
 
     <main class="dashboard-main">
         <section id="tasks-section">
-            <h1>Make It <span class="accent">Happen.</span></h1>
-            <p class="page-subtitle">Organiseer je taken per categorie en werk ze stap voor stap af.</p>
+            <h1>Hallo, <span class="accent"><%= user.fullName %></span></h1>
+            <p class="page-subtitle">Klaar om je taken af te werken?</p>
 
             <%- include('../partials/taskInput') %>
             <%- include('../partials/taskList') %>

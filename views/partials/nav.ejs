@@ -6,8 +6,11 @@
 
         <ul>
             <li><a href="/" class="active">Taken</a></li>
-            <li><a href="/login">Log in</a></li>
-            <li><a href="/register">Registreer</a></li>
+            <li>
+                <form action="/logout" method="POST">
+                    <button type="submit" class="btn-sm-ghost">Afmelden</button>
+                </form>
+            </li>
         </ul>
     </nav>
 </header>
