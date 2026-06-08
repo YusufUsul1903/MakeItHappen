@@ -11,8 +11,7 @@ router.get('/forgot-password', authController.getForgotPassword);
 router.post(
     '/register',
     [
-        body('firstName').trim().notEmpty().withMessage('Voornaam is verplicht.'),
-        body('lastName').trim().notEmpty().withMessage('Achternaam is verplicht.'),
+        body('fullName').trim().notEmpty().withMessage('Naam is verplicht.'),
         body('email').isEmail().withMessage('Geef een geldig e-mailadres op.'),
         body('password')
             .isLength({ min: 6 })
