@@ -1,32 +1,32 @@
-/* ============================================================
-   Make It Happen. — Global Stylesheet
-   Fonts: Playfair Display (display) + DM Sans (body)
-   ============================================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap');
 @import url('https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css');
 
-/* ── Variables ─────────────────────────────────────────────── */
+/* ============================================================
+   1. Variables
+   ============================================================ */
+
 :root {
-  --green-50:  #EAF3DE;
-  --green-100: #C0DD97;
-  --green-600: #3B6D11;
-  --green-700: #27500A;
-  --green-900: #173404;
+  --green-50: hsl(88, 48%, 91%);
+  --green-100: hsl(87, 52%, 73%);
+  --green-600: hsl(92, 73%, 25%);
+  --green-700: hsl(96, 78%, 18%);
+  --green-900: hsl(95, 86%, 11%);
 
-  --red-50:  #FCEBEB;
-  --red-200: #F09595;
-  --red-700: #A32D2D;
+  --red-50: hsl(0, 74%, 95%);
+  --red-200: hsl(0, 75%, 76%);
+  --red-700: hsl(0, 57%, 41%);
 
-  --gray-50:  #F8F7F4;
-  --gray-100: #F1EFE8;
-  --gray-200: #D3D1C7;
-  --gray-400: #888780;
-  --gray-600: #5F5E5A;
-  --gray-900: #2C2C2A;
+  --gray-50: hsl(45, 22%, 96%);
+  --gray-100: hsl(47, 24%, 93%);
+  --gray-200: hsl(50, 12%, 80%);
+  --gray-400: hsl(55, 3%, 52%);
+  --gray-600: hsl(48, 3%, 36%);
+  --gray-900: hsl(60, 2%, 17%);
+
+  --white: hsl(0, 0%, 100%);
 
   --font-display: 'Playfair Display', Georgia, serif;
-  --font-body:    'DM Sans', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
 
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -35,8 +35,13 @@
   --transition: 0.15s ease;
 }
 
-/* ── Reset & Base ───────────────────────────────────────────── */
-*, *::before, *::after {
+/* ============================================================
+   2. Reset & Base
+   ============================================================ */
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -48,15 +53,23 @@ html {
 }
 
 body {
-  font-family: var(--font-body);
-  background-color: var(--gray-100);
-  color: var(--gray-900);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  font-family: var(--font-body);
+  background-color: var(--gray-100);
+  color: var(--gray-900);
 }
 
-/* ── Typography ─────────────────────────────────────────────── */
+main {
+  flex: 1;
+  width: 100%;
+}
+
+/* ============================================================
+   3. Typography
+   ============================================================ */
+
 h1 {
   font-family: var(--font-display);
   font-size: clamp(2rem, 5vw, 2.75rem);
@@ -91,20 +104,27 @@ a:hover {
   text-decoration: underline;
 }
 
-/* ── Navigation ─────────────────────────────────────────────── */
+.accent {
+  color: var(--green-600);
+}
+
+/* ============================================================
+   4. Navigation
+   ============================================================ */
+
 header {
-  background: #fff;
-  border-bottom: 0.5px solid var(--gray-200);
   position: sticky;
   top: 0;
   z-index: 100;
+  background: var(--white);
+  border-bottom: 0.5px solid var(--gray-200);
 }
 
 header nav {
   max-width: 900px;
+  height: 56px;
   margin: 0 auto;
   padding: 0 1.5rem;
-  height: 56px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -132,13 +152,13 @@ header nav ul {
 }
 
 header nav ul li a {
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
   font-size: 0.825rem;
   font-weight: 400;
   color: var(--gray-600);
-  padding: 6px 12px;
-  border-radius: var(--radius-sm);
-  transition: background var(--transition), color var(--transition);
   text-decoration: none;
+  transition: background var(--transition), color var(--transition);
 }
 
 header nav ul li a:hover {
@@ -153,13 +173,269 @@ header nav ul li a.active {
   font-weight: 500;
 }
 
-/* ── Layout ─────────────────────────────────────────────────── */
-main {
-  flex: 1;
+/* ============================================================
+   5. Forms
+   ============================================================ */
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select {
   width: 100%;
+  height: 40px;
+  padding: 0 14px;
+  border: 0.5px solid var(--gray-200);
+  border-radius: var(--radius-sm);
+  background: var(--gray-50);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  color: var(--gray-900);
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
 }
 
-/* ── Dashboard / Index ──────────────────────────────────────── */
+select {
+  padding: 0 12px;
+  font-size: 0.825rem;
+}
+
+input::placeholder {
+  color: var(--gray-400);
+}
+
+input[type="text"]:hover,
+input[type="email"]:hover,
+input[type="password"]:hover,
+select:hover {
+  border-color: var(--gray-400);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select:focus {
+  border-color: var(--green-600);
+  background: var(--white);
+  box-shadow: 0 0 0 3px hsl(92, 73%, 25%, 0.1);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-group label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--gray-600);
+}
+
+/* ============================================================
+   6. Buttons
+   ============================================================ */
+
+button,
+.btn-primary,
+.btn-add,
+.btn-sm-primary,
+.btn-sm-ghost,
+.btn-edit,
+.btn-delete,
+.btn-cat-delete,
+.btn-add-category {
+  font-family: var(--font-body);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition), color var(--transition), border-color var(--transition), transform 0.1s;
+}
+
+button[type="submit"],
+.btn-primary {
+  width: 100%;
+  height: 42px;
+  margin-top: 4px;
+  border: none;
+  background: var(--green-600);
+  color: var(--green-50);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+button[type="submit"]:hover,
+.btn-primary:hover,
+.btn-add:hover,
+.btn-sm-primary:hover {
+  background: var(--green-700);
+}
+
+button[type="submit"]:active,
+.btn-primary:active,
+.btn-add:active {
+  transform: scale(0.98);
+}
+
+.btn-add {
+  height: 40px;
+  padding: 0 18px;
+  border: none;
+  background: var(--green-600);
+  color: var(--green-50);
+  font-size: 0.825rem;
+  font-weight: 500;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-sm-primary {
+  height: 32px;
+  padding: 0 14px;
+  border: none;
+  background: var(--green-600);
+  color: var(--green-50);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.btn-sm-ghost {
+  height: 32px;
+  padding: 0 14px;
+  border: 0.5px solid var(--gray-200);
+  background: transparent;
+  color: var(--gray-600);
+  font-size: 0.8rem;
+}
+
+.btn-sm-ghost:hover {
+  background: var(--gray-100);
+  color: var(--gray-900);
+}
+
+.btn-edit,
+.btn-delete {
+  width: 30px;
+  height: 30px;
+  border: 0.5px solid var(--gray-200);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  color: var(--gray-600);
+}
+
+.btn-edit:hover {
+  background: var(--gray-100);
+  color: var(--gray-900);
+}
+
+.btn-delete:hover {
+  background: var(--red-50);
+  color: var(--red-700);
+  border-color: var(--red-200);
+}
+
+/* ============================================================
+   7. Alerts
+   ============================================================ */
+
+.alert {
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 0.825rem;
+  margin-bottom: 1rem;
+}
+
+.alert-error {
+  background: var(--red-50);
+  color: var(--red-700);
+  border: 0.5px solid var(--red-200);
+}
+
+.alert-success {
+  background: var(--green-50);
+  color: var(--green-700);
+  border: 0.5px solid var(--green-100);
+}
+
+/* ============================================================
+   8. Auth Pages
+   ============================================================ */
+
+.auth-wrapper {
+  min-height: calc(100vh - 56px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 2.5rem 2rem;
+  background: var(--white);
+  border: 0.5px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  animation: fadeUp 0.25s ease;
+}
+
+.auth-card h1 {
+  font-size: clamp(1.6rem, 4vw, 2rem);
+  margin-bottom: 0.4rem;
+}
+
+.auth-card .auth-subtitle {
+  font-size: 0.875rem;
+  color: var(--gray-400);
+  margin-bottom: 2rem;
+}
+
+.auth-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-links {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.auth-links p {
+  font-size: 0.825rem;
+  color: var(--gray-400);
+}
+
+.auth-divider {
+  height: 0.5px;
+  margin: 1.5rem 0 1rem;
+  background: var(--gray-200);
+}
+
+/* ============================================================
+   9. Dashboard Layout
+   ============================================================ */
+
+.dashboard-layout {
+  display: flex;
+  flex: 1;
+  min-height: calc(100vh - 56px);
+}
+
+.dashboard-main {
+  flex: 1;
+  max-width: 640px;
+  padding: 2.5rem 2rem;
+  min-width: 0;
+}
+
 #tasks-section {
   max-width: 580px;
   margin: 0 auto;
@@ -170,32 +446,193 @@ main {
   margin-bottom: 0.25rem;
 }
 
-#tasks-section h1 .accent {
-  color: var(--green-600);
-}
-
 .page-subtitle {
+  margin-bottom: 2.5rem;
   font-size: 0.9rem;
   color: var(--gray-400);
-  margin-bottom: 2.5rem;
 }
 
-/* Add task card */
-.input-card {
-  background: #fff;
+/* ============================================================
+   10. Sidebar
+   ============================================================ */
+
+.sidebar {
+  width: 220px;
+  height: calc(100vh - 56px);
+  flex-shrink: 0;
+  position: sticky;
+  top: 56px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  padding: 1.5rem 1rem;
+  overflow-y: auto;
+  background: var(--white);
+  border-right: 0.5px solid var(--gray-200);
+}
+
+.sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sidebar-label {
+  padding: 0 6px;
+  margin-bottom: 2px;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray-400);
+}
+
+.sidebar-nav {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sidebar-link {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.825rem;
+  color: var(--gray-600);
+  text-decoration: none;
+  transition: background var(--transition), color var(--transition);
+}
+
+.sidebar-link:hover {
+  background: var(--gray-100);
+  color: var(--gray-900);
+  text-decoration: none;
+}
+
+.sidebar-link.active {
+  background: var(--green-50);
+  color: var(--green-600);
+  font-weight: 500;
+}
+
+/* ============================================================
+   11. Categories
+   ============================================================ */
+
+.category-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cat-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.btn-cat-delete {
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-400);
+  font-size: 0.75rem;
+  opacity: 0;
+}
+
+.category-item:hover .btn-cat-delete {
+  opacity: 1;
+}
+
+.btn-cat-delete:hover {
+  background: var(--red-50);
+  color: var(--red-700);
+}
+
+.btn-add-category {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  padding: 6px 8px;
+  border: none;
+  background: none;
+  font-size: 0.8rem;
+  color: var(--gray-400);
+}
+
+.btn-add-category:hover {
+  color: var(--green-600);
+  background: var(--green-50);
+}
+
+.add-category-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+  padding: 12px;
+  background: var(--gray-50);
   border: 0.5px solid var(--gray-200);
   border-radius: var(--radius-md);
-  padding: 1.25rem;
+}
+
+.cat-color-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.color-swatch {
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.1s, border-color 0.1s;
+}
+
+.color-swatch:hover {
+  transform: scale(1.15);
+}
+
+.color-swatch.selected {
+  border-color: var(--gray-900);
+}
+
+.add-cat-actions {
+  display: flex;
+  gap: 6px;
+}
+
+/* ============================================================
+   12. Task Input
+   ============================================================ */
+
+.input-card {
   margin-bottom: 1.5rem;
+  padding: 1.25rem;
+  background: var(--white);
+  border: 0.5px solid var(--gray-200);
+  border-radius: var(--radius-md);
 }
 
 .input-label {
+  margin-bottom: 10px;
   font-size: 0.675rem;
   font-weight: 500;
   letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--gray-400);
-  margin-bottom: 10px;
 }
 
 .input-group {
@@ -207,13 +644,16 @@ main {
   flex: 1;
 }
 
-/* Progress bar */
+/* ============================================================
+   13. Progress Bar
+   ============================================================ */
+
 .progress-bar {
   height: 3px;
-  background: var(--gray-200);
-  border-radius: 99px;
   margin-bottom: 1rem;
   overflow: hidden;
+  background: var(--gray-200);
+  border-radius: 99px;
 }
 
 .progress-fill {
@@ -223,7 +663,10 @@ main {
   transition: width 0.35s ease;
 }
 
-/* Task list header */
+/* ============================================================
+   14. Task List
+   ============================================================ */
+
 .task-list-header {
   display: flex;
   justify-content: space-between;
@@ -245,7 +688,6 @@ main {
   color: var(--gray-400);
 }
 
-/* Task list */
 #taskList {
   list-style: none;
   display: flex;
@@ -254,20 +696,15 @@ main {
 }
 
 #taskList li {
-  background: #fff;
-  border: 0.5px solid var(--gray-200);
-  border-radius: var(--radius-md);
-  padding: 14px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 14px 16px;
+  background: var(--white);
+  border: 0.5px solid var(--gray-200);
+  border-radius: var(--radius-md);
   transition: border-color var(--transition);
   animation: slideIn 0.2s ease;
-}
-
-@keyframes slideIn {
-  from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
 }
 
 #taskList li:hover {
@@ -279,24 +716,71 @@ main {
 }
 
 .task-info {
+  flex: 1;
   display: flex;
   align-items: center;
   gap: 12px;
-  flex: 1;
 }
 
-/* Custom checkbox */
+.task-info > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.task-info span {
+  font-size: 0.875rem;
+  color: var(--gray-900);
+  transition: color var(--transition);
+}
+
+#taskList li.completed .task-info span {
+  text-decoration: line-through;
+  color: var(--gray-400);
+}
+
+.task-category-label {
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  color: var(--gray-400);
+}
+
+.task-actions {
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+#taskList li:hover .task-actions {
+  opacity: 1;
+}
+
+#taskList .empty-state {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--gray-400);
+  font-size: 0.875rem;
+  font-style: italic;
+}
+
+/* ============================================================
+   15. Custom Checkbox
+   ============================================================ */
+
 .task-info input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
   width: 18px;
   height: 18px;
-  border-radius: 50%;
-  border: 1.5px solid var(--gray-200);
-  background: transparent;
-  cursor: pointer;
   flex-shrink: 0;
   position: relative;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
   transition: border-color var(--transition), background var(--transition);
 }
 
@@ -320,248 +804,120 @@ main {
 
 .task-info input[type="checkbox"]:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(59, 109, 17, 0.2);
+  box-shadow: 0 0 0 3px hsl(92, 73%, 25%, 0.2);
 }
 
-.task-info span {
-  font-size: 0.875rem;
-  color: var(--gray-900);
-  transition: color var(--transition);
-}
+/* ============================================================
+   16. Modal
+   ============================================================ */
 
-#taskList li.completed .task-info span {
-  text-decoration: line-through;
-  color: var(--gray-400);
-}
-
-/* Task action buttons */
-.task-actions {
-  display: flex;
-  gap: 4px;
-  opacity: 0;
-  transition: opacity var(--transition);
-}
-
-#taskList li:hover .task-actions {
-  opacity: 1;
-}
-
-.btn-edit,
-.btn-delete {
-  width: 30px;
-  height: 30px;
-  border-radius: var(--radius-sm);
-  border: 0.5px solid var(--gray-200);
-  background: transparent;
-  cursor: pointer;
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.875rem;
-  color: var(--gray-600);
-  transition: background var(--transition), color var(--transition), border-color var(--transition);
+  background: hsl(60, 2%, 17%, 0.35);
+  backdrop-filter: blur(2px);
 }
 
-.btn-edit:hover {
+.modal-card {
+  width: 100%;
+  max-width: 420px;
+  margin: 1rem;
+  background: var(--white);
+  border: 0.5px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem 0;
+}
+
+.modal-header button {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: none;
+  color: var(--gray-400);
+}
+
+.modal-header button:hover {
   background: var(--gray-100);
   color: var(--gray-900);
 }
 
-.btn-delete:hover {
-  background: var(--red-50);
-  color: var(--red-700);
-  border-color: var(--red-200);
-}
-
-/* Empty state */
-#taskList .empty-state {
-  text-align: center;
-  padding: 3rem 1rem;
-  color: var(--gray-400);
-  font-size: 0.875rem;
-  font-style: italic;
-}
-
-/* ── Auth Pages (login, register, forgot-password) ──────────── */
-.auth-wrapper {
-  min-height: calc(100vh - 56px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem 1rem;
-}
-
-.auth-card {
-  background: #fff;
-  border: 0.5px solid var(--gray-200);
-  border-radius: var(--radius-lg);
-  padding: 2.5rem 2rem;
-  width: 100%;
-  max-width: 400px;
-  animation: fadeUp 0.25s ease;
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.auth-card h1 {
-  font-size: clamp(1.6rem, 4vw, 2rem);
-  margin-bottom: 0.4rem;
-}
-
-.auth-card .auth-subtitle {
-  font-size: 0.875rem;
-  color: var(--gray-400);
-  margin-bottom: 2rem;
-}
-
-.auth-card form {
+.modal-body {
+  padding: 1.25rem 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
-.form-group {
+.modal-footer {
+  padding: 0 1.5rem 1.5rem;
   display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.form-group label {
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: var(--gray-600);
-}
-
-.auth-links {
-  margin-top: 1.5rem;
-  display: flex;
-  flex-direction: column;
+  justify-content: flex-end;
   gap: 8px;
 }
 
-.auth-links p {
-  font-size: 0.825rem;
-  color: var(--gray-400);
+/* ============================================================
+   17. Animations
+   ============================================================ */
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.auth-divider {
-  height: 0.5px;
-  background: var(--gray-200);
-  margin: 1.5rem 0 1rem;
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* ── Form Elements ──────────────────────────────────────────── */
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-  width: 100%;
-  height: 40px;
-  padding: 0 14px;
-  border: 0.5px solid var(--gray-200);
-  border-radius: var(--radius-sm);
-  background: var(--gray-50);
-  font-family: var(--font-body);
-  font-size: 0.875rem;
-  color: var(--gray-900);
-  outline: none;
-  transition: border-color var(--transition), box-shadow var(--transition);
+/* ============================================================
+   18. Responsive
+   ============================================================ */
+
+@media (max-width: 700px) {
+  .sidebar {
+    display: none;
+  }
+
+  .dashboard-main {
+    padding: 1.5rem 1rem;
+  }
 }
 
-input[type="text"]::placeholder,
-input[type="email"]::placeholder,
-input[type="password"]::placeholder {
-  color: var(--gray-400);
+@media (max-width: 600px) {
+  .input-group {
+    flex-direction: column;
+  }
+
+  .input-group select,
+  .btn-add {
+    width: 100%;
+  }
 }
 
-input[type="text"]:hover,
-input[type="email"]:hover,
-input[type="password"]:hover {
-  border-color: var(--gray-400);
-}
-
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus {
-  border-color: var(--green-600);
-  background: #fff;
-  box-shadow: 0 0 0 3px rgba(59, 109, 17, 0.1);
-}
-
-/* ── Buttons ────────────────────────────────────────────────── */
-button[type="submit"],
-.btn-primary {
-  width: 100%;
-  height: 42px;
-  background: var(--green-600);
-  color: var(--green-50);
-  border: none;
-  border-radius: var(--radius-sm);
-  font-family: var(--font-body);
-  font-size: 0.875rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background var(--transition), transform 0.1s;
-  margin-top: 4px;
-}
-
-button[type="submit"]:hover,
-.btn-primary:hover {
-  background: var(--green-700);
-}
-
-button[type="submit"]:active,
-.btn-primary:active {
-  transform: scale(0.98);
-}
-
-/* Add task button (inline, not full width) */
-.btn-add {
-  height: 40px;
-  padding: 0 18px;
-  background: var(--green-600);
-  color: var(--green-50);
-  border: none;
-  border-radius: var(--radius-sm);
-  font-family: var(--font-body);
-  font-size: 0.825rem;
-  font-weight: 500;
-  cursor: pointer;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  transition: background var(--transition), transform 0.1s;
-}
-
-.btn-add:hover  { background: var(--green-700); }
-.btn-add:active { transform: scale(0.97); }
-
-/* ── Flash / Alert messages ─────────────────────────────────── */
-.alert {
-  padding: 10px 14px;
-  border-radius: var(--radius-sm);
-  font-size: 0.825rem;
-  margin-bottom: 1rem;
-}
-
-.alert-error {
-  background: var(--red-50);
-  color: var(--red-700);
-  border: 0.5px solid var(--red-200);
-}
-
-.alert-success {
-  background: var(--green-50);
-  color: var(--green-700);
-  border: 0.5px solid var(--green-100);
-}
-
-/* ── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 480px) {
   header nav {
     padding: 0 1rem;
@@ -583,286 +939,4 @@ button[type="submit"]:active,
   .auth-card {
     padding: 2rem 1.25rem;
   }
-
-  .input-group {
-    flex-direction: column;
-  }
-
-  .btn-add {
-    width: 100%;
-    justify-content: center;
-  }
-}
-
-/* ── Dashboard layout ───────────────────────────────────────── */
-.dashboard-layout {
-    display: flex;
-    flex: 1;
-    min-height: calc(100vh - 56px);
-}
-
-.dashboard-main {
-    flex: 1;
-    max-width: 640px;
-    padding: 2.5rem 2rem;
-    min-width: 0;
-}
-
-/* ── Sidebar ────────────────────────────────────────────────── */
-.sidebar {
-    width: 220px;
-    flex-shrink: 0;
-    background: #fff;
-    border-right: 0.5px solid var(--gray-200);
-    padding: 1.5rem 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.75rem;
-    position: sticky;
-    top: 56px;
-    height: calc(100vh - 56px);
-    overflow-y: auto;
-}
-
-.sidebar-section {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.sidebar-label {
-    font-size: 0.65rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--gray-400);
-    padding: 0 6px;
-    margin-bottom: 2px;
-}
-
-.sidebar-nav {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.category-item {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.sidebar-link {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 7px 8px;
-    border-radius: var(--radius-sm);
-    font-size: 0.825rem;
-    color: var(--gray-600);
-    text-decoration: none;
-    transition: background var(--transition), color var(--transition);
-}
-.sidebar-link:hover { background: var(--gray-100); color: var(--gray-900); text-decoration: none; }
-.sidebar-link.active { background: var(--green-50); color: var(--green-600); font-weight: 500; }
-
-.cat-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-
-.btn-cat-delete {
-    width: 24px;
-    height: 24px;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    border-radius: var(--radius-sm);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--gray-400);
-    font-size: 0.75rem;
-    opacity: 0;
-    transition: opacity var(--transition), background var(--transition), color var(--transition);
-}
-.category-item:hover .btn-cat-delete { opacity: 1; }
-.btn-cat-delete:hover { background: var(--red-50); color: var(--red-700); }
-
-.btn-add-category {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.8rem;
-    color: var(--gray-400);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 6px 8px;
-    border-radius: var(--radius-sm);
-    transition: color var(--transition), background var(--transition);
-    font-family: var(--font-body);
-    margin-top: 4px;
-}
-.btn-add-category:hover { color: var(--green-600); background: var(--green-50); }
-
-.add-category-form {
-    background: var(--gray-50);
-    border: 0.5px solid var(--gray-200);
-    border-radius: var(--radius-md);
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-top: 4px;
-}
-
-.cat-color-row {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-}
-
-.color-swatch {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    border: 2px solid transparent;
-    cursor: pointer;
-    transition: transform 0.1s, border-color 0.1s;
-}
-.color-swatch:hover { transform: scale(1.15); }
-.color-swatch.selected { border-color: var(--gray-900); }
-
-.add-cat-actions { display: flex; gap: 6px; }
-
-.btn-sm-primary {
-    height: 32px;
-    padding: 0 14px;
-    background: var(--green-600);
-    color: var(--green-50);
-    border: none;
-    border-radius: var(--radius-sm);
-    font-family: var(--font-body);
-    font-size: 0.8rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background var(--transition);
-}
-.btn-sm-primary:hover { background: var(--green-700); }
-
-.btn-sm-ghost {
-    height: 32px;
-    padding: 0 14px;
-    background: transparent;
-    color: var(--gray-600);
-    border: 0.5px solid var(--gray-200);
-    border-radius: var(--radius-sm);
-    font-family: var(--font-body);
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: background var(--transition), color var(--transition);
-}
-.btn-sm-ghost:hover { background: var(--gray-100); color: var(--gray-900); }
-
-/* ── Modal ──────────────────────────────────────────────────── */
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(44, 44, 42, 0.35);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 200;
-    backdrop-filter: blur(2px);
-}
-
-.modal-card {
-    background: #fff;
-    border: 0.5px solid var(--gray-200);
-    border-radius: var(--radius-lg);
-    width: 100%;
-    max-width: 420px;
-    margin: 1rem;
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.25rem 1.5rem 0;
-}
-
-.modal-header button {
-    width: 30px;
-    height: 30px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    border-radius: var(--radius-sm);
-    color: var(--gray-400);
-    transition: background var(--transition), color var(--transition);
-}
-.modal-header button:hover { background: var(--gray-100); color: var(--gray-900); }
-
-.modal-body { padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 14px; }
-
-.modal-footer {
-    padding: 0 1.5rem 1.5rem;
-    display: flex;
-    justify-content: flex-end;
-    gap: 8px;
-}
-
-/* ── Responsive ─────────────────────────────────────────────── */
-@media (max-width: 700px) {
-    .sidebar { display: none; }
-    .dashboard-main { padding: 1.5rem 1rem; }
-}
-
-select {
-    height: 40px;
-    padding: 0 12px;
-    border: 0.5px solid var(--gray-200);
-    border-radius: var(--radius-sm);
-    background: var(--gray-50);
-    font-family: var(--font-body);
-    font-size: 0.825rem;
-    color: var(--gray-900);
-    outline: none;
-}
-
-select:focus {
-    border-color: var(--green-600);
-    background: #fff;
-    box-shadow: 0 0 0 3px rgba(59, 109, 17, 0.1);
-}
-
-.task-category-label {
-    margin-top: 4px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.72rem;
-    color: var(--gray-400);
-}
-
-.task-info > div {
-    display: flex;
-    flex-direction: column;
-}
-
-@media (max-width: 600px) {
-    .input-group {
-        flex-direction: column;
-    }
-
-    .input-group select,
-    .btn-add {
-        width: 100%;
-    }
 }
