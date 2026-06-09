@@ -9,6 +9,8 @@ import cookieParser from 'cookie-parser';
 import taskRoutes from './routes/taskRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 
+import { notFound, errorHandler } from './middleware/errorMiddleware.js';
+
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -35,6 +37,9 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 app.use('/', taskRoutes);
 app.use('/', authRoutes);
+
+app.use(notFound);
+app.use(errorHandler);
 
 app.listen(port, () => {
     console.log(`Server draait op http://localhost:${port}`);
