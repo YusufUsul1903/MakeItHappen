@@ -246,3 +246,90 @@ export const deleteCategory = async (req, res) => {
         });
     }
 };
+
+export const getTasks = async (req, res) => {
+    try {
+        const tasks = await Task.find({ user: req.user._id })
+            .populate('category', 'name color')
+            .sort({ completed: 1, createdAt: -1 });
+
+        res.json({
+            success: true,
+            tasks
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
+    }
+};
+
+export const getTaskById = async (req, res) => {
+    try {
+        const task = await Task.findOne({
+            _id: req.params.id,
+            user: req.user._id
+        }).populate('category', 'name color');
+
+        if (!task) {
+            return res.status(404).json({
+                success: false,
+                message: 'Taak niet gevonden'
+            });
+        }
+
+        res.json({
+            success: true,
+            task
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
+    }
+};
+
+export const getCategories = async (req, res) => {
+    try {
+        const categories = await Category.find({ user: req.user._id })
+            .sort({ createdAt: 1 });
+
+        res.json({
+            success: true,
+            categories
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
+    }
+};
+
+export const getCategoryById = async (req, res) => {
+    try {
+        const category = await Category.findOne({
+            _id: req.params.id,
+            user: req.user._id
+        });
+
+        if (!category) {
+            return res.status(404).json({
+                success: false,
+                message: 'Categorie niet gevonden'
+            });
+        }
+
+        res.json({
+            success: true,
+            category
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: err.message
+        });
+    }
+};

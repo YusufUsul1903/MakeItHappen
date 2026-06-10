@@ -8,6 +8,33 @@ const router = express.Router();
 
 router.get('/', requireAuth, taskController.getDashboard);
 router.get('/category/:id', requireAuth, taskController.getTasksByCategory);
+router.get('/api/tasks', requireAuth, taskController.getTasks);
+
+router.get(
+    '/api/tasks/:id',
+    requireAuth,
+    [
+        param('id')
+            .isMongoId()
+            .withMessage('Ongeldige taak.')
+    ],
+    handleValidationErrors,
+    taskController.getTaskById
+);
+
+router.get('/api/categories', requireAuth, taskController.getCategories);
+
+router.get(
+    '/api/categories/:id',
+    requireAuth,
+    [
+        param('id')
+            .isMongoId()
+            .withMessage('Ongeldige categorie.')
+    ],
+    handleValidationErrors,
+    taskController.getCategoryById
+);
 
 router.post(
     '/api/tasks',

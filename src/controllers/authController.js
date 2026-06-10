@@ -21,7 +21,7 @@ export const getLogin = (req, res) => {
 
 export const getRegister = (req, res) => {
     res.render('pages/register', {
-        title: 'Make It Happen — Registreer',
+        title: 'Let It Happen — Registreer',
         errors: [],
         oldInput: {}
     });
