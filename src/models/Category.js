@@ -1,21 +1,57 @@
-import mongoose from 'mongoose';
+import { Model } from "objection";
+import BaseModel from "./BaseModel.js";
+import User from "./User.js";
 
-const categorySchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: [true, 'Naam is verplicht'],
-        trim: true,
-        maxlength: [50, 'Naam mag max 50 tekens zijn']
-    },
-    color: {
-        type: String,
-        default: '#3B6D11'
-    },
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+class Category extends BaseModel {
+    static get tableName() {
+        return "categories";
     }
-}, { timestamps: true });
 
-export default mongoose.model('Category', categorySchema);
+    static get idColumn() {
+        return "id";
+    }
+
+    static get jsonSchema() {
+        return {
+            type: "object",
+
+            required: ["name", "user_id"],
+
+            properties: {
+                id: {
+                    type: "integer"
+                },
+
+                name: {
+                    type: "string",
+                    maxLength: 50
+                },
+
+                color: {
+                    type: "string",
+                    maxLength: 7
+                },
+
+                user_id: {
+                    type: "integer"
+                }
+            }
+        };
+    }
+
+    static get relationMappings() {
+        return {
+            user: {
+                relation: Model.BelongsToOneRelation,
+                modelClass: User,
+
+                join: {
+                    from: "categories.user_id",
+                    to: "users.id"
+                }
+            }
+        };
+    }
+}
+
+export default Category;

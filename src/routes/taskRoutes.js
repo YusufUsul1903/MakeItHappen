@@ -15,7 +15,7 @@ router.get(
     requireAuth,
     [
         param('id')
-            .isMongoId()
+            .isInt()
             .withMessage('Ongeldige taak.')
     ],
     handleValidationErrors,
@@ -29,7 +29,7 @@ router.get(
     requireAuth,
     [
         param('id')
-            .isMongoId()
+            .isInt()
             .withMessage('Ongeldige categorie.')
     ],
     handleValidationErrors,
@@ -49,7 +49,7 @@ router.post(
 
         body('category')
             .optional({ nullable: true, checkFalsy: true })
-            .isMongoId()
+            .isInt()
             .withMessage('Ongeldige categorie.')
     ],
     handleValidationErrors,
@@ -61,7 +61,7 @@ router.patch(
     requireAuth,
     [
         param('id')
-            .isMongoId()
+            .isInt()
             .withMessage('Ongeldige taak.'),
 
         body('title')
@@ -79,7 +79,7 @@ router.patch(
 
         body('category')
             .optional({ nullable: true, checkFalsy: true })
-            .isMongoId()
+            .isInt()
             .withMessage('Ongeldige categorie.')
     ],
     handleValidationErrors,
@@ -91,7 +91,7 @@ router.delete(
     requireAuth,
     [
         param('id')
-            .isMongoId()
+            .isInt()
             .withMessage('Ongeldige taak.')
     ],
     handleValidationErrors,
@@ -123,7 +123,7 @@ router.delete(
     requireAuth,
     [
         param('id')
-            .isMongoId()
+            .isInt()
             .withMessage('Ongeldige categorie.')
     ],
     handleValidationErrors,

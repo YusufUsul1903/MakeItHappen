@@ -1,4 +1,8 @@
-<div class="modal-overlay" id="editModal" style="display:none;">
+<div
+    class="modal-overlay"
+    id="editModal"
+    style="display:none;"
+>
     <div class="modal-card">
         <div class="modal-header">
             <h2>Taak bewerken</h2>
@@ -6,21 +10,33 @@
         </div>
 
         <div class="modal-body">
-            <input type="hidden" id="editTaskId">
+            <input
+                type="hidden"
+                id="editTaskId"
+            >
 
             <div class="form-group">
                 <label for="editTaskTitle">Titel</label>
-                <input type="text" id="editTaskTitle" placeholder="Taaknaam">
+
+                <input
+                    type="text"
+                    id="editTaskTitle"
+                    placeholder="Taaknaam"
+                >
             </div>
 
             <div class="form-group">
-                <label for="editTaskCategory">Categorie</label>
+                <label for="editTaskCategory">
+                    Categorie
+                </label>
 
                 <select id="editTaskCategory">
-                    <option value="">Geen categorie</option>
+                    <option value="">
+                        Geen categorie
+                    </option>
 
                     <% categories.forEach(cat => { %>
-                        <option value="<%= cat._id %>">
+                        <option value="<%= cat.id %>">
                             <%= cat.name %>
                         </option>
                     <% }) %>
@@ -29,8 +45,19 @@
         </div>
 
         <div class="modal-footer">
-            <button class="btn-sm-ghost" id="cancelEdit">Annuleren</button>
-            <button class="btn-sm-primary" id="saveEdit">Opslaan</button>
+            <button
+                class="btn-sm-ghost"
+                id="cancelEdit"
+            >
+                Annuleren
+            </button>
+
+            <button
+                class="btn-sm-primary"
+                id="saveEdit"
+            >
+                Opslaan
+            </button>
         </div>
     </div>
 </div>

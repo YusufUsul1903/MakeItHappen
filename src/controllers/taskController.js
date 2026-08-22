@@ -3,12 +3,15 @@ import Category from '../models/Category.js';
 
 export const getDashboard = async (req, res) => {
     try {
-        const tasks = await Task.find({ user: req.user._id })
-            .populate('category', 'name color')
-            .sort({ completed: 1, createdAt: -1 });
+        const tasks = await Task.query()
+            .where('user_id', req.user.id)
+            .withGraphFetched('category')
+            .orderBy('completed', 'asc')
+            .orderBy('created_at', 'desc');
 
-        const categories = await Category.find({ user: req.user._id })
-            .sort({ createdAt: 1 });
+        const categories = await Category.query()
+            .where('user_id', req.user.id)
+            .orderBy('created_at', 'asc');
 
         res.render('pages/index', {
             title: 'Make It Happen — Dashboard',
@@ -18,21 +21,26 @@ export const getDashboard = async (req, res) => {
             user: req.user
         });
     } catch (err) {
-        res.status(500).send('Er ging iets mis bij het laden van de taken.');
+        console.error('Dashboard fout:', err);
+
+        res.status(500).send(
+            'Er ging iets mis bij het laden van de taken.'
+        );
     }
 };
 
 export const getTasksByCategory = async (req, res) => {
     try {
-        const tasks = await Task.find({
-            user: req.user._id,
-            category: req.params.id
-        })
-            .populate('category', 'name color')
-            .sort({ completed: 1, createdAt: -1 });
+        const tasks = await Task.query()
+            .where('user_id', req.user.id)
+            .where('category_id', req.params.id)
+            .withGraphFetched('category')
+            .orderBy('completed', 'asc')
+            .orderBy('created_at', 'desc');
 
-        const categories = await Category.find({ user: req.user._id })
-            .sort({ createdAt: 1 });
+        const categories = await Category.query()
+            .where('user_id', req.user.id)
+            .orderBy('created_at', 'asc');
 
         res.render('pages/index', {
             title: 'Make It Happen — Categorie',
@@ -42,7 +50,11 @@ export const getTasksByCategory = async (req, res) => {
             user: req.user
         });
     } catch (err) {
-        res.status(500).send('Er ging iets mis bij het laden van deze categorie.');
+        console.error('Categorie fout:', err);
+
+        res.status(500).send(
+            'Er ging iets mis bij het laden van deze categorie.'
+        );
     }
 };
 
@@ -58,10 +70,11 @@ export const createTask = async (req, res) => {
         }
 
         if (category) {
-            const existingCategory = await Category.findOne({
-                _id: category,
-                user: req.user._id
-            });
+            const existingCategory = await Category.query()
+                .findOne({
+                    id: Number(category),
+                    user_id: req.user.id
+                });
 
             if (!existingCategory) {
                 return res.status(403).json({
@@ -71,19 +84,24 @@ export const createTask = async (req, res) => {
             }
         }
 
-        const task = await Task.create({
+        const task = await Task.query().insert({
             title: title.trim(),
-            category: category || null,
-            user: req.user._id
+            category_id: category ? Number(category) : null,
+            user_id: req.user.id,
+            completed: false
         });
 
-        await task.populate('category', 'name color');
+        const taskWithCategory = await Task.query()
+            .findById(task.id)
+            .withGraphFetched('category');
 
         res.status(201).json({
             success: true,
-            task
+            task: taskWithCategory
         });
     } catch (err) {
+        console.error('Create task fout:', err);
+
         res.status(500).json({
             success: false,
             message: err.message
@@ -93,7 +111,20 @@ export const createTask = async (req, res) => {
 
 export const updateTask = async (req, res) => {
     try {
-        const allowedUpdates = {};
+        const task = await Task.query()
+            .findOne({
+                id: Number(req.params.id),
+                user_id: req.user.id
+            });
+
+        if (!task) {
+            return res.status(404).json({
+                success: false,
+                message: 'Taak niet gevonden'
+            });
+        }
+
+        const updates = {};
 
         if (req.body.title !== undefined) {
             if (!req.body.title.trim()) {
@@ -103,19 +134,22 @@ export const updateTask = async (req, res) => {
                 });
             }
 
-            allowedUpdates.title = req.body.title.trim();
+            updates.title = req.body.title.trim();
         }
 
         if (req.body.completed !== undefined) {
-            allowedUpdates.completed = req.body.completed;
+            updates.completed =
+                req.body.completed === true ||
+                req.body.completed === 'true';
         }
 
         if (req.body.category !== undefined) {
             if (req.body.category) {
-                const existingCategory = await Category.findOne({
-                    _id: req.body.category,
-                    user: req.user._id
-                });
+                const existingCategory = await Category.query()
+                    .findOne({
+                        id: Number(req.body.category),
+                        user_id: req.user.id
+                    });
 
                 if (!existingCategory) {
                     return res.status(403).json({
@@ -123,32 +157,29 @@ export const updateTask = async (req, res) => {
                         message: 'Deze categorie bestaat niet of is niet van jou.'
                     });
                 }
+
+                updates.category_id = Number(req.body.category);
+            } else {
+                updates.category_id = null;
             }
-
-            allowedUpdates.category = req.body.category || null;
         }
 
-        const task = await Task.findOneAndUpdate(
-            {
-                _id: req.params.id,
-                user: req.user._id
-            },
-            { $set: allowedUpdates },
-            { new: true, runValidators: true }
-        ).populate('category', 'name color');
+        await Task.query()
+            .patch(updates)
+            .where('id', task.id)
+            .where('user_id', req.user.id);
 
-        if (!task) {
-            return res.status(404).json({
-                success: false,
-                message: 'Taak niet gevonden'
-            });
-        }
+        const updatedTask = await Task.query()
+            .findById(task.id)
+            .withGraphFetched('category');
 
         res.json({
             success: true,
-            task
+            task: updatedTask
         });
     } catch (err) {
+        console.error('Update task fout:', err);
+
         res.status(500).json({
             success: false,
             message: err.message
@@ -158,12 +189,12 @@ export const updateTask = async (req, res) => {
 
 export const deleteTask = async (req, res) => {
     try {
-        const task = await Task.findOneAndDelete({
-            _id: req.params.id,
-            user: req.user._id
-        });
+        const deleted = await Task.query()
+            .delete()
+            .where('id', Number(req.params.id))
+            .where('user_id', req.user.id);
 
-        if (!task) {
+        if (!deleted) {
             return res.status(404).json({
                 success: false,
                 message: 'Taak niet gevonden'
@@ -175,6 +206,8 @@ export const deleteTask = async (req, res) => {
             message: 'Taak verwijderd'
         });
     } catch (err) {
+        console.error('Delete task fout:', err);
+
         res.status(500).json({
             success: false,
             message: err.message
@@ -193,10 +226,10 @@ export const createCategory = async (req, res) => {
             });
         }
 
-        const category = await Category.create({
+        const category = await Category.query().insert({
             name: name.trim(),
             color: color || '#3B6D11',
-            user: req.user._id
+            user_id: req.user.id
         });
 
         res.status(201).json({
@@ -204,6 +237,8 @@ export const createCategory = async (req, res) => {
             category
         });
     } catch (err) {
+        console.error('Create category fout:', err);
+
         res.status(500).json({
             success: false,
             message: err.message
@@ -213,10 +248,11 @@ export const createCategory = async (req, res) => {
 
 export const deleteCategory = async (req, res) => {
     try {
-        const category = await Category.findOne({
-            _id: req.params.id,
-            user: req.user._id
-        });
+        const category = await Category.query()
+            .findOne({
+                id: Number(req.params.id),
+                user_id: req.user.id
+            });
 
         if (!category) {
             return res.status(404).json({
@@ -225,21 +261,21 @@ export const deleteCategory = async (req, res) => {
             });
         }
 
-        await Task.deleteMany({
-            category: req.params.id,
-            user: req.user._id
-        });
+        await Task.query()
+            .delete()
+            .where('category_id', category.id)
+            .where('user_id', req.user.id);
 
-        await Category.findOneAndDelete({
-            _id: req.params.id,
-            user: req.user._id
-        });
+        await Category.query()
+            .deleteById(category.id);
 
         res.json({
             success: true,
             message: 'Categorie en bijhorende taken verwijderd'
         });
     } catch (err) {
+        console.error('Delete category fout:', err);
+
         res.status(500).json({
             success: false,
             message: err.message
@@ -249,15 +285,19 @@ export const deleteCategory = async (req, res) => {
 
 export const getTasks = async (req, res) => {
     try {
-        const tasks = await Task.find({ user: req.user._id })
-            .populate('category', 'name color')
-            .sort({ completed: 1, createdAt: -1 });
+        const tasks = await Task.query()
+            .where('user_id', req.user.id)
+            .withGraphFetched('category')
+            .orderBy('completed', 'asc')
+            .orderBy('created_at', 'desc');
 
         res.json({
             success: true,
             tasks
         });
     } catch (err) {
+        console.error('Get tasks fout:', err);
+
         res.status(500).json({
             success: false,
             message: err.message
@@ -267,10 +307,12 @@ export const getTasks = async (req, res) => {
 
 export const getTaskById = async (req, res) => {
     try {
-        const task = await Task.findOne({
-            _id: req.params.id,
-            user: req.user._id
-        }).populate('category', 'name color');
+        const task = await Task.query()
+            .findOne({
+                id: Number(req.params.id),
+                user_id: req.user.id
+            })
+            .withGraphFetched('category');
 
         if (!task) {
             return res.status(404).json({
@@ -284,6 +326,8 @@ export const getTaskById = async (req, res) => {
             task
         });
     } catch (err) {
+        console.error('Get task fout:', err);
+
         res.status(500).json({
             success: false,
             message: err.message
@@ -293,14 +337,17 @@ export const getTaskById = async (req, res) => {
 
 export const getCategories = async (req, res) => {
     try {
-        const categories = await Category.find({ user: req.user._id })
-            .sort({ createdAt: 1 });
+        const categories = await Category.query()
+            .where('user_id', req.user.id)
+            .orderBy('created_at', 'asc');
 
         res.json({
             success: true,
             categories
         });
     } catch (err) {
+        console.error('Get categories fout:', err);
+
         res.status(500).json({
             success: false,
             message: err.message
@@ -310,10 +357,11 @@ export const getCategories = async (req, res) => {
 
 export const getCategoryById = async (req, res) => {
     try {
-        const category = await Category.findOne({
-            _id: req.params.id,
-            user: req.user._id
-        });
+        const category = await Category.query()
+            .findOne({
+                id: Number(req.params.id),
+                user_id: req.user.id
+            });
 
         if (!category) {
             return res.status(404).json({
@@ -327,6 +375,8 @@ export const getCategoryById = async (req, res) => {
             category
         });
     } catch (err) {
+        console.error('Get category fout:', err);
+
         res.status(500).json({
             success: false,
             message: err.message

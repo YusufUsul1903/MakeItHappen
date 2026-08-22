@@ -9,15 +9,21 @@ export const requireAuth = async (req, res, next) => {
             return res.redirect('/login');
         }
 
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const decoded = jwt.verify(
+            token,
+            process.env.JWT_SECRET
+        );
 
-        const user = await User.findById(decoded.id).select('-password');
+        const user = await User.query()
+            .findById(decoded.id)
+            .select('id', 'full_name', 'email');
 
         if (!user) {
             return res.redirect('/login');
         }
 
         req.user = user;
+
         next();
     } catch (err) {
         res.clearCookie('token');
@@ -29,7 +35,12 @@ export const redirectIfLoggedIn = (req, res, next) => {
     const token = req.cookies.token;
 
     if (token) {
-        return res.redirect('/');
+        try {
+            jwt.verify(token, process.env.JWT_SECRET);
+            return res.redirect('/');
+        } catch (err) {
+            res.clearCookie('token');
+        }
     }
 
     next();

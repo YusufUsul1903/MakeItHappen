@@ -28,7 +28,10 @@ async function addTask() {
     }
 
     input.value = '';
-    if (categorySelect) categorySelect.value = '';
+
+    if (categorySelect) {
+        categorySelect.value = '';
+    }
 
     addTaskToDOM(data.task);
 }
@@ -37,17 +40,22 @@ function addTaskToDOM(task) {
     const list = $('taskList');
     const empty = list.querySelector('.empty-state');
 
-    if (empty) empty.remove();
+    if (empty) {
+        empty.remove();
+    }
 
     const li = document.createElement('li');
 
-    li.dataset.id = task._id;
+    li.dataset.id = task.id;
     li.className = task.completed ? 'completed' : '';
 
     const categoryLabel = task.category
         ? `
             <small class="task-category-label">
-                <span class="cat-dot" style="background:${task.category.color}"></span>
+                <span
+                    class="cat-dot"
+                    style="background:${task.category.color}"
+                ></span>
                 ${escapeHTML(task.category.name)}
             </small>
         `
@@ -64,16 +72,21 @@ function addTaskToDOM(task) {
         </div>
 
         <div class="task-actions">
-            <button 
-                class="btn-edit" 
-                data-id="${task._id}" 
+            <button
+                class="btn-edit"
+                data-id="${task.id}"
                 data-title="${escapeHTML(task.title)}"
-                data-category="${task.category ? task.category._id : ''}"
+                data-category="${task.category ? task.category.id : ''}"
             >
                 ✏️
             </button>
 
-            <button class="btn-delete" data-id="${task._id}">🗑️</button>
+            <button
+                class="btn-delete"
+                data-id="${task.id}"
+            >
+                🗑️
+            </button>
         </div>
     `;
 
@@ -82,9 +95,14 @@ function addTaskToDOM(task) {
 }
 
 function bindTaskEvents(li) {
-    li.querySelector('input[type="checkbox"]')?.addEventListener('change', toggleTask);
-    li.querySelector('.btn-edit')?.addEventListener('click', openEditModal);
-    li.querySelector('.btn-delete')?.addEventListener('click', deleteTask);
+    li.querySelector('input[type="checkbox"]')
+        ?.addEventListener('change', toggleTask);
+
+    li.querySelector('.btn-edit')
+        ?.addEventListener('click', openEditModal);
+
+    li.querySelector('.btn-delete')
+        ?.addEventListener('click', deleteTask);
 }
 
 async function toggleTask(e) {
@@ -113,9 +131,13 @@ async function deleteTask(e) {
     const li = e.target.closest('li');
     const id = li.dataset.id;
 
-    const confirmed = confirm('Ben je zeker dat je deze taak wil verwijderen?');
+    const confirmed = confirm(
+        'Ben je zeker dat je deze taak wil verwijderen?'
+    );
 
-    if (!confirmed) return;
+    if (!confirmed) {
+        return;
+    }
 
     const res = await fetch(`/api/tasks/${id}`, {
         method: 'DELETE'
@@ -131,7 +153,8 @@ async function deleteTask(e) {
     li.remove();
 
     if (!$('taskList').querySelector('li')) {
-        $('taskList').innerHTML = '<p class="empty-state">Geen taken gevonden. Lekker bezig!</p>';
+        $('taskList').innerHTML =
+            '<p class="empty-state">Geen taken gevonden. Lekker bezig!</p>';
     }
 }
 
@@ -151,6 +174,15 @@ async function saveEdit() {
     const title = $('editTaskTitle').value.trim();
     const category = $('editTaskCategory').value || null;
 
+    console.log('EDIT ID:', id);
+    console.log('EDIT TITLE:', title);
+    console.log('EDIT CATEGORY:', category);
+
+    if (!id) {
+        alert('ID ontbreekt!');
+        return;
+    }
+
     if (!title) {
         $('editTaskTitle').focus();
         return;
@@ -159,10 +191,15 @@ async function saveEdit() {
     const res = await fetch(`/api/tasks/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, category })
+        body: JSON.stringify({
+            title,
+            category
+        })
     });
 
     const data = await res.json();
+
+    console.log('EDIT RESPONSE:', data);
 
     if (!data.success) {
         alert(data.message);
@@ -221,9 +258,13 @@ async function saveCategory() {
 async function deleteCategory(e) {
     const id = e.target.dataset.id;
 
-    const confirmed = confirm('Ben je zeker dat je deze categorie wil verwijderen? Taken blijven bestaan, maar zonder categorie.');
+    const confirmed = confirm(
+        'Ben je zeker dat je deze categorie wil verwijderen? Taken blijven bestaan, maar zonder categorie.'
+    );
 
-    if (!confirmed) return;
+    if (!confirmed) {
+        return;
+    }
 
     const res = await fetch(`/api/categories/${id}`, {
         method: 'DELETE'
@@ -251,7 +292,9 @@ function escapeHTML(value) {
 $('addTaskBtn')?.addEventListener('click', addTask);
 
 $('taskInput')?.addEventListener('keydown', e => {
-    if (e.key === 'Enter') addTask();
+    if (e.key === 'Enter') {
+        addTask();
+    }
 });
 
 $('saveEdit')?.addEventListener('click', saveEdit);
@@ -259,15 +302,30 @@ $('cancelEdit')?.addEventListener('click', closeModal);
 $('closeModal')?.addEventListener('click', closeModal);
 
 $('editTaskTitle')?.addEventListener('keydown', e => {
-    if (e.key === 'Enter') saveEdit();
+    if (e.key === 'Enter') {
+        saveEdit();
+    }
 });
 
-$('toggleAddCategory')?.addEventListener('click', toggleCategoryForm);
-$('cancelCategoryBtn')?.addEventListener('click', closeCategoryForm);
-$('saveCategoryBtn')?.addEventListener('click', saveCategory);
+$('toggleAddCategory')?.addEventListener(
+    'click',
+    toggleCategoryForm
+);
+
+$('cancelCategoryBtn')?.addEventListener(
+    'click',
+    closeCategoryForm
+);
+
+$('saveCategoryBtn')?.addEventListener(
+    'click',
+    saveCategory
+);
 
 $('newCategoryName')?.addEventListener('keydown', e => {
-    if (e.key === 'Enter') saveCategory();
+    if (e.key === 'Enter') {
+        saveCategory();
+    }
 });
 
 document.querySelectorAll('.color-swatch').forEach(btn => {

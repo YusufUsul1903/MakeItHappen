@@ -1,22 +1,41 @@
-import mongoose from 'mongoose';
+import BaseModel from "./BaseModel.js";
 
-const userSchema = new mongoose.Schema({
-    fullName: {
-        type: String,
-        required: [true, 'Naam is verplicht'],
-        trim: true
-    },
-    email: {
-        type: String,
-        required: [true, 'E-mail is verplicht'],
-        unique: true,
-        lowercase: true,
-        trim: true
-    },
-    password: {
-        type: String,
-        required: [true, 'Wachtwoord is verplicht']
+class User extends BaseModel {
+    static get tableName() {
+        return "users";
     }
-}, { timestamps: true });
 
-export default mongoose.model('User', userSchema);
+    static get idColumn() {
+        return "id";
+    }
+
+    static get jsonSchema() {
+        return {
+            type: "object",
+
+            required: ["full_name", "email", "password"],
+
+            properties: {
+                id: {
+                    type: "integer"
+                },
+
+                full_name: {
+                    type: "string",
+                    maxLength: 255
+                },
+
+                email: {
+                    type: "string",
+                    maxLength: 255
+                },
+
+                password: {
+                    type: "string"
+                }
+            }
+        };
+    }
+}
+
+export default User;

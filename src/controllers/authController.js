@@ -47,27 +47,36 @@ export const register = async (req, res) => {
     try {
         const { fullName, email, password } = req.body;
 
-        const existingUser = await User.findOne({ email });
+        const existingUser = await User.query()
+            .findOne({ email });
 
         if (existingUser) {
             return res.status(422).render('pages/register', {
                 title: 'Make It Happen — Registreer',
-                errors: [{ msg: 'Er bestaat al een account met dit e-mailadres.' }],
+                errors: [
+                    {
+                        msg: 'Er bestaat al een account met dit e-mailadres.'
+                    }
+                ],
                 oldInput: req.body
             });
         }
 
         const hashedPassword = await bcrypt.hash(password, 12);
 
-        await User.create({
-            fullName,
-            email,
+        await User.query().insert({
+            full_name: fullName.trim(),
+            email: email.trim().toLowerCase(),
             password: hashedPassword
         });
 
         res.redirect('/login');
     } catch (err) {
-        res.status(500).send('Er ging iets mis bij het registreren.');
+        console.error('Registratie fout:', err);
+
+        res.status(500).send(
+            'Er ging iets mis bij het registreren.'
+        );
     }
 };
 
@@ -85,27 +94,41 @@ export const login = async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        const user = await User.findOne({ email });
+        const user = await User.query()
+            .findOne({
+                email: email.trim().toLowerCase()
+            });
 
         if (!user) {
             return res.status(401).render('pages/log-in', {
                 title: 'Make It Happen — Log in',
-                errors: [{ msg: 'Ongeldige e-mail of wachtwoord.' }],
+                errors: [
+                    {
+                        msg: 'Ongeldige e-mail of wachtwoord.'
+                    }
+                ],
                 oldInput: req.body
             });
         }
 
-        const isMatch = await bcrypt.compare(password, user.password);
+        const isMatch = await bcrypt.compare(
+            password,
+            user.password
+        );
 
         if (!isMatch) {
             return res.status(401).render('pages/log-in', {
                 title: 'Make It Happen — Log in',
-                errors: [{ msg: 'Ongeldige e-mail of wachtwoord.' }],
+                errors: [
+                    {
+                        msg: 'Ongeldige e-mail of wachtwoord.'
+                    }
+                ],
                 oldInput: req.body
             });
         }
 
-        const token = createToken(user._id);
+        const token = createToken(user.id);
 
         res.cookie('token', token, {
             httpOnly: true,
@@ -114,7 +137,11 @@ export const login = async (req, res) => {
 
         res.redirect('/');
     } catch (err) {
-        res.status(500).send('Er ging iets mis bij het aanmelden.');
+        console.error('Login fout:', err);
+
+        res.status(500).send(
+            'Er ging iets mis bij het aanmelden.'
+        );
     }
 };
 

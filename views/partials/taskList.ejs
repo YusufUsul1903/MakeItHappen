@@ -8,7 +8,7 @@
 <ul id="taskList">
     <% if (tasks && tasks.length > 0) { %>
         <% tasks.forEach(task => { %>
-            <li class="<%= task.completed ? 'completed' : '' %>" data-id="<%= task._id %>">
+            <li class="<%= task.completed ? 'completed' : '' %>" data-id="<%= task.id %>">
                 <div class="task-info">
                     <input type="checkbox" <%= task.completed ? 'checked' : '' %>>
 
@@ -17,7 +17,10 @@
 
                         <% if (task.category) { %>
                             <small class="task-category-label">
-                                <span class="cat-dot" style="background:<%= task.category.color %>"></span>
+                                <span
+                                    class="cat-dot"
+                                    style="background:<%= task.category.color %>"
+                                ></span>
                                 <%= task.category.name %>
                             </small>
                         <% } %>
@@ -25,16 +28,21 @@
                 </div>
 
                 <div class="task-actions">
-                    <button 
-                        class="btn-edit" 
-                        data-id="<%= task._id %>" 
+                    <button
+                        class="btn-edit"
+                        data-id="<%= task.id %>"
                         data-title="<%= task.title %>"
-                        data-category="<%= task.category ? task.category._id : '' %>"
+                        data-category="<%= task.category ? task.category.id : '' %>"
                     >
                         ✏️
                     </button>
 
-                    <button class="btn-delete" data-id="<%= task._id %>">🗑️</button>
+                    <button
+                        class="btn-delete"
+                        data-id="<%= task.id %>"
+                    >
+                        🗑️
+                    </button>
                 </div>
             </li>
         <% }) %>
