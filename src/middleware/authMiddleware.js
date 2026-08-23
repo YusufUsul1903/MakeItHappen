@@ -6,6 +6,7 @@ export const requireAuth = async (req, res, next) => {
         const token = req.cookies.token;
 
         if (!token) {
+            console.error('AUTH ERROR: geen token');
             return res.redirect('/login');
         }
 
@@ -19,6 +20,7 @@ export const requireAuth = async (req, res, next) => {
             .select('id', 'full_name', 'email');
 
         if (!user) {
+            console.error('AUTH ERROR: gebruiker niet gevonden');
             return res.redirect('/login');
         }
 
@@ -26,6 +28,7 @@ export const requireAuth = async (req, res, next) => {
 
         next();
     } catch (err) {
+        console.error('AUTH ERROR:', err);
         res.clearCookie('token');
         res.redirect('/login');
     }
