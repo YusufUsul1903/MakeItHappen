@@ -5,8 +5,6 @@ import expressLayouts from 'express-ejs-layouts';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 
-import db from './database/db.js';
-
 import taskRoutes from './routes/taskRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 
